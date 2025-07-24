@@ -117,3 +117,4 @@ sample_*.json
 restaurants_*.json
 reviews_*.json
 places_*.json
+.vercel
