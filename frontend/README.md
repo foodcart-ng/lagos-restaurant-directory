@@ -290,3 +290,53 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Built with ❤️ for the Lagos dining community**
+
+## 🚀 Vercel Deployment
+
+This frontend is optimized for deployment on Vercel with the following setup:
+
+### Quick Deploy Options
+
+#### Option 1: Vercel CLI (Recommended)
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Navigate to frontend directory
+cd frontend
+
+# Login and deploy
+vercel login
+vercel --prod
+```
+
+#### Option 2: GitHub Integration
+1. Push code to GitHub repository
+2. Visit [vercel.com](https://vercel.com) and sign in
+3. Click "New Project" and import your repository
+4. Set root directory to `frontend`
+5. Deploy with default settings
+
+### Environment Variables for Production
+
+Configure these in Vercel dashboard:
+```env
+NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
+NEXT_PUBLIC_API_URL=https://your-api-domain.com
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_key
+```
+
+### Deployment Configuration
+
+The project includes:
+- `vercel.json` - Deployment configuration with security headers
+- `next.config.js` - Next.js optimization settings
+- `.env.example` - Environment variables template
+- Tailwind CSS with custom primary colors
+
+### Build Commands
+- **Build**: `npm run build`
+- **Dev**: `npm run dev`
+- **Start**: `npm start`
+
+---
