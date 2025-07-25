@@ -30,28 +30,33 @@ export default function TasteLagosFooter() {
                   <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
                 </svg>
               </Link>
+              <Link href="#" className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded flex items-center justify-center text-white hover:from-purple-600 hover:to-pink-600 transition">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.017 2.011c2.721 0 3.044.012 4.117.059 1.684.077 2.597.343 3.203.572.805.313 1.38.687 1.984 1.291.604.604.978 1.179 1.291 1.984.229.606.495 1.519.572 3.203.047 1.073.059 1.396.059 4.117s-.012 3.044-.059 4.117c-.077 1.684-.343 2.597-.572 3.203-.313.805-.687 1.38-1.291 1.984-.604.604-1.179.978-1.984 1.291-.606.229-1.519.495-3.203.572-1.073.047-1.396.059-4.117.059s-3.044-.012-4.117-.059c-1.684-.077-2.597-.343-3.203-.572-.805-.313-1.38-.687-1.984-1.291-.604-.604-.978-1.179-1.291-1.984-.229-.606-.495-1.519-.572-3.203-.047-1.073-.059-1.396-.059-4.117s.012-3.044.059-4.117c.077-1.684.343-2.597.572-3.203.313-.805.687-1.38 1.291-1.984.604-.604 1.179-.978 1.984-1.291.606-.229 1.519-.495 3.203-.572 1.073-.047 1.396-.059 4.117-.059zm0-2.011c-2.767 0-3.114.013-4.201.061-1.081.049-1.82.221-2.465.473-.675.263-1.248.614-1.818 1.184-.57.57-.921 1.143-1.184 1.818-.252.645-.424 1.384-.473 2.465-.048 1.087-.061 1.434-.061 4.201s.013 3.114.061 4.201c.049 1.081.221 1.82.473 2.465.263.675.614 1.248 1.184 1.818.57.57 1.143.921 1.818 1.184.645.252 1.384.424 2.465.473 1.087.048 1.434.061 4.201.061s3.114-.013 4.201-.061c1.081-.049 1.82-.221 2.465-.473.675-.263 1.248-.614 1.818-1.184.57-.57.921-1.143 1.184-1.818.252-.645.424-1.384.473-2.465.048-1.087.061-1.434.061-4.201s-.013-3.114-.061-4.201c-.049-1.081-.221-1.82-.473-2.465-.263-.675-.614-1.248-1.184-1.818-.57-.57-1.143-.921-1.818-1.184-.645-.252-1.384-.424-2.465-.473-1.087-.048-1.434-.061-4.201-.061zm0 5.421c-2.874 0-5.204 2.33-5.204 5.204s2.33 5.204 5.204 5.204 5.204-2.33 5.204-5.204-2.33-5.204-5.204-5.204zm0 8.588c-1.868 0-3.384-1.516-3.384-3.384s1.516-3.384 3.384-3.384 3.384 1.516 3.384 3.384-1.516 3.384-3.384 3.384zm6.634-8.854c0-.671-.544-1.215-1.215-1.215s-1.215.544-1.215 1.215.544 1.215 1.215 1.215 1.215-.544 1.215-1.215z"/>
+                </svg>
+              </Link>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Community Links */}
           <div className="md:mt-0 mt-8">
-            <h3 className="font-semibold text-gray-900 mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">Community</h3>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><Link href="/" className="hover:text-green-600 transition">Home One</Link></li>
-              <li><Link href="/listings" className="hover:text-green-600 transition">Listings</Link></li>
-              <li><Link href="/add-listing" className="hover:text-green-600 transition">Listing Form</Link></li>
+              <li><Link href="/profile" className="hover:text-green-600 transition">My Profile</Link></li>
+              <li><Link href="/newsletter" className="hover:text-green-600 transition">Newsletter</Link></li>
               <li><Link href="/blog" className="hover:text-green-600 transition">Blog</Link></li>
+              <li><Link href="/about-us" className="hover:text-green-600 transition">About Us</Link></li>
             </ul>
           </div>
 
           {/* Informations */}
           <div className="md:mt-0 mt-8">
-            <h3 className="font-semibold text-gray-900 mb-4">Informations</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">About</h3>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><Link href="/listings" className="hover:text-green-600 transition">Listings</Link></li>
-              <li><Link href="/account" className="hover:text-green-600 transition">My Account</Link></li>
-              <li><Link href="/add-listing" className="hover:text-green-600 transition">Listing Form</Link></li>
-              <li><Link href="/checkout" className="hover:text-green-600 transition">Checkout</Link></li>
+              <li><Link href="/faq" className="hover:text-green-600 transition">Faq</Link></li>
+              <li><Link href="/contact" className="hover:text-green-600 transition">Contact</Link></li>
+              <li><Link href="/banners" className="hover:text-green-600 transition">Link to us</Link></li>
+              <li><Link href="/sitemap" className="hover:text-green-600 transition">Sitemap</Link></li>
             </ul>
           </div>
 
