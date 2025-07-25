@@ -109,13 +109,13 @@ export default function FeaturedRestaurants() {
 
   const getVisibleCount = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth >= 1024) return 3 // Desktop - show 3
+      if (window.innerWidth >= 1024) return 4 // Desktop - show 4
       if (window.innerWidth >= 640) return 2 // Tablet - show 2
     }
     return 1 // Mobile - show 1
   }
 
-  const [visibleCount, setVisibleCount] = useState(getVisibleCount())
+  const [visibleCount, setVisibleCount] = useState(1) // Start with mobile-first to avoid hydration mismatch
 
   const totalSlides = Math.ceil(featuredRestaurants.length / visibleCount)
 
@@ -150,6 +150,9 @@ export default function FeaturedRestaurants() {
   }
 
   useEffect(() => {
+    // Set initial visible count after mount to avoid hydration mismatch
+    setVisibleCount(getVisibleCount())
+    
     const handleResize = () => {
       const newVisibleCount = getVisibleCount()
       setVisibleCount(newVisibleCount)
@@ -202,48 +205,34 @@ export default function FeaturedRestaurants() {
     <section className="py-8 md:py-12 lg:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-6 md:mb-8">
-          <div className="mb-4 sm:mb-0">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-              Featured Restaurants
-            </h2>
-            <p className="text-base md:text-lg text-gray-600">
-              Discover our hand-picked selection of Lagos' finest dining experiences
-            </p>
-          </div>
+        <div className="text-center mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+            🍽️ Lagos Food Legends
+          </h2>
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+            From jollof rice to shawarma - discover the restaurants that make Lagos delicious!
+          </p>
           
-          <div className="flex items-center gap-4">
-            {/* Navigation Arrows */}
-            <div className="flex gap-2">
-              <button
-                onClick={prevSlide}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={currentIndex === 0}
-              >
-                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                onClick={nextSlide}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={currentIndex === totalSlides - 1}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-
-            <Link
-              href="/restaurants"
-              className="hidden sm:inline-flex items-center text-green-600 hover:text-green-700 font-bold transition-colors duration-200 text-sm md:text-base"
+          {/* Navigation Arrows */}
+          <div className="flex justify-center gap-2">
+            <button
+              onClick={prevSlide}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={currentIndex === 0}
             >
-              View all
-              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={nextSlide}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={currentIndex === totalSlides - 1}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -255,7 +244,7 @@ export default function FeaturedRestaurants() {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {featuredRestaurants.map((restaurant) => (
-              <div key={restaurant.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3">
+              <div key={restaurant.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4">
                 <RestaurantCard restaurant={restaurant} />
               </div>
             ))}

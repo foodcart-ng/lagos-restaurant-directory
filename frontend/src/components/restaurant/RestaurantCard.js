@@ -25,11 +25,11 @@ export default function RestaurantCard({ restaurant, viewMode = 'grid' }) {
   }
 
   return (
-    <div className="bg-white rounded-lg md:rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer">
+    <div className="bg-white rounded-lg md:rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300">
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image
-          src="/placeholder-restaurant.jpg"
+          src={image || "/placeholder-restaurant.svg"}
           alt={name}
           fill
           className="object-cover hover:scale-105 transition-transform duration-300"

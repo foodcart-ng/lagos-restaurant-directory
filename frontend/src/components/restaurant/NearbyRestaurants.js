@@ -1,8 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import RestaurantCard from './RestaurantCard'
+import { useState, useRef, useEffect } from 'react'
+import SimpleRestaurantCard from './SimpleRestaurantCard'
 
 const nearbyRestaurants = [
   {
@@ -115,39 +114,98 @@ const lagosAreas = [
 ]
 
 export default function NearbyRestaurants() {
-  const [selectedArea, setSelectedArea] = useState('Victoria Island')
-  const [userLocation, setUserLocation] = useState(null)
-  const [showAllRestaurants, setShowAllRestaurants] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const scrollContainerRef = useRef(null)
+  
+  const getVisibleCount = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth >= 1024) return 4 // Desktop - show 4
+      if (window.innerWidth >= 640) return 2 // Tablet - show 2
+    }
+    return 1 // Mobile - show 1
+  }
+
+  const [visibleCount, setVisibleCount] = useState(getVisibleCount())
+  const totalSlides = Math.ceil(nearbyRestaurants.length / visibleCount)
+
+  const nextSlide = () => {
+    const newIndex = (currentIndex + 1) % totalSlides
+    setCurrentIndex(newIndex)
+    scrollToIndex(newIndex)
+  }
+
+  const prevSlide = () => {
+    const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1
+    setCurrentIndex(newIndex)
+    scrollToIndex(newIndex)
+  }
+
+  const scrollToIndex = (index) => {
+    if (scrollContainerRef.current) {
+      const cardWidth = scrollContainerRef.current.children[0]?.offsetWidth || 0
+      const gap = 16 // gap-4 = 16px
+      const scrollPosition = index * visibleCount * (cardWidth + gap)
+      
+      scrollContainerRef.current.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+      })
+    }
+  }
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index)
+    scrollToIndex(index)
+  }
 
   useEffect(() => {
-    // Simulate getting user location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            area: 'Victoria Island' // Mock detected area
-          })
-        },
-        (error) => {
-          console.log('Location access denied or unavailable')
-          // Default to Victoria Island
-          setUserLocation({ area: 'Victoria Island' })
-        }
-      )
-    } else {
-      setUserLocation({ area: 'Victoria Island' })
+    const handleResize = () => {
+      const newVisibleCount = getVisibleCount()
+      setVisibleCount(newVisibleCount)
+      setCurrentIndex(0) // Reset to first slide on resize
     }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const filteredRestaurants = nearbyRestaurants.filter(
-    restaurant => restaurant.area === selectedArea
-  )
+  useEffect(() => {
+    // Add touch/swipe support for mobile
+    const container = scrollContainerRef.current
+    if (!container) return
 
-  const restaurantsToShow = showAllRestaurants 
-    ? filteredRestaurants 
-    : filteredRestaurants.slice(0, 4)
+    let startX = 0
+    let startScrollLeft = 0
+    let isDragging = false
+
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX
+      startScrollLeft = container.scrollLeft
+      isDragging = true
+    }
+
+    const handleTouchMove = (e) => {
+      if (!isDragging) return
+      e.preventDefault()
+      const x = e.touches[0].clientX
+      const walk = (startX - x) * 2
+      container.scrollLeft = startScrollLeft + walk
+    }
+
+    const handleTouchEnd = () => {
+      isDragging = false
+    }
+
+    container.addEventListener('touchstart', handleTouchStart, { passive: true })
+    container.addEventListener('touchmove', handleTouchMove, { passive: false })
+    container.addEventListener('touchend', handleTouchEnd, { passive: true })
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart)
+      container.removeEventListener('touchmove', handleTouchMove)
+      container.removeEventListener('touchend', handleTouchEnd)
+    }
+  }, [])
 
   return (
     <section className="py-8 md:py-12 lg:py-16 bg-gray-50">
@@ -160,131 +218,62 @@ export default function NearbyRestaurants() {
               Restaurants Near You
             </h2>
           </div>
-          <p className="text-base md:text-lg text-gray-600 mb-6">
-            {userLocation ? 
-              `Discover great food options in ${selectedArea}` :
-              'Select your area to find nearby restaurants'
-            }
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+            Discover great food options around you
           </p>
 
-          {/* Location Detection Status */}
-          {userLocation && (
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              Currently in {userLocation.area}
-            </div>
-          )}
+          {/* Navigation Arrows */}
+          <div className="flex justify-center gap-2">
+            <button
+              onClick={prevSlide}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={currentIndex === 0}
+            >
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={nextSlide}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={currentIndex === totalSlides - 1}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
         </div>
 
-        {/* Area Selector */}
-        <div className="mb-6 md:mb-8">
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-            {lagosAreas.map((area) => (
-              <button
-                key={area}
-                onClick={() => setSelectedArea(area)}
-                className={`px-3 md:px-4 py-2 rounded-full text-sm md:text-base font-medium transition-all duration-200 ${
-                  selectedArea === area
-                    ? 'bg-orange-600 text-white shadow-md'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
-                }`}
-              >
-                {area}
-              </button>
+        {/* Restaurant Carousel */}
+        <div className="relative mb-6 md:mb-8">
+          <div
+            ref={scrollContainerRef}
+            className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide scroll-smooth"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {nearbyRestaurants.map((restaurant) => (
+              <div key={restaurant.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4">
+                <SimpleRestaurantCard restaurant={restaurant} />
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Distance and Filter Info */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 md:mb-8 px-4 py-3 bg-white rounded-lg border border-gray-200">
-          <div className="flex items-center gap-2 mb-2 sm:mb-0">
-            <span className="text-gray-600 text-sm">
-              📍 Showing {filteredRestaurants.length} restaurants in {selectedArea}
-            </span>
-          </div>
-          <div className="flex items-center gap-4 text-sm text-gray-500">
-            <span>🚶 Walking distance</span>
-            <span>•</span>
-            <span>⭐ Rated 3.5+</span>
-          </div>
-        </div>
-
-        {/* Restaurant Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
-          {restaurantsToShow.map((restaurant) => (
-            <div key={restaurant.id} className="relative">
-              <RestaurantCard restaurant={restaurant} />
-              {/* Distance Badge */}
-              <div className="absolute top-3 left-3 bg-orange-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
-                {restaurant.distance}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Show More/Less Button */}
-        {filteredRestaurants.length > 4 && (
-          <div className="text-center mb-6 md:mb-8">
+        {/* Carousel Indicators */}
+        <div className="flex justify-center gap-2 mb-6 md:mb-8">
+          {Array.from({ length: totalSlides }).map((_, index) => (
             <button
-              onClick={() => setShowAllRestaurants(!showAllRestaurants)}
-              className="inline-flex items-center px-6 py-3 bg-white border-2 border-orange-600 text-orange-600 font-semibold rounded-lg hover:bg-orange-50 transition-colors duration-200"
-            >
-              {showAllRestaurants ? (
-                <>
-                  Show Less
-                  <svg className="ml-2 w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </>
-              ) : (
-                <>
-                  Show {filteredRestaurants.length - 4} More in {selectedArea}
-                  <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </>
-              )}
-            </button>
-          </div>
-        )}
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href={`/restaurants?area=${selectedArea.toLowerCase().replace(' ', '-')}`}
-            className="inline-flex items-center justify-center px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors duration-200"
-          >
-            View All in {selectedArea}
-            <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-          <button className="inline-flex items-center justify-center px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors duration-200">
-            📍 Enable Location Services
-          </button>
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                index === currentIndex ? 'bg-green-600' : 'bg-gray-300 hover:bg-gray-400'
+              }`}
+            />
+          ))}
+    
         </div>
-
-        {/* Quick Stats for Selected Area */}
-        <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-gray-300">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div className="p-3 md:p-4">
-              <div className="text-xl md:text-2xl font-bold text-orange-600">{filteredRestaurants.length}</div>
-              <div className="text-xs md:text-sm text-gray-600">In {selectedArea}</div>
-            </div>
-            <div className="p-3 md:p-4">
-              <div className="text-xl md:text-2xl font-bold text-green-600">0.5km</div>
-              <div className="text-xs md:text-sm text-gray-600">Avg Distance</div>
-            </div>
-            <div className="p-3 md:p-4">
-              <div className="text-xl md:text-2xl font-bold text-orange-600">15min</div>
-              <div className="text-xs md:text-sm text-gray-600">Avg Delivery</div>
-            </div>
-            <div className="p-3 md:p-4">
-              <div className="text-xl md:text-2xl font-bold text-green-600">₦₦</div>
-              <div className="text-xs md:text-sm text-gray-600">Avg Price</div>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </section>
   )
