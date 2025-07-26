@@ -23,6 +23,7 @@ export default function RestaurantCard({ restaurant, viewMode = 'grid' }) {
     }
     return count.toString()
   }
+  console.log(image + "  ==")
 
   return (
     <div className="bg-white rounded-lg md:rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300">

@@ -12,7 +12,7 @@ const nearbyRestaurants = [
     cuisine: 'Nigerian',
     area: 'Victoria Island',
     priceRange: '₦₦',
-    image: '/restaurants/buka.jpg',
+    image: '/restaurants/bukka-hut.jpg',
     highlights: ['Local dishes', 'Quick service', 'Affordable'],
     address: 'Adeola Odeku Street, Victoria Island',
     phone: '+234 802 123 4567',
@@ -28,7 +28,7 @@ const nearbyRestaurants = [
     cuisine: 'Mixed',
     area: 'Victoria Island',
     priceRange: '₦₦',
-    image: '/restaurants/shoprite.jpg',
+    image: '/restaurants/eric-kayser.jpg',
     highlights: ['Food court', 'Multiple options', 'Family friendly'],
     address: 'The Palms Shopping Mall, Victoria Island',
     phone: '+234 708 999 0000',
@@ -44,7 +44,7 @@ const nearbyRestaurants = [
     cuisine: 'Fast Food',
     area: 'Victoria Island',
     priceRange: '₦',
-    image: '/restaurants/mr-biggs.jpg',
+    image: '/restaurants/mama-put.jpg',
     highlights: ['Fast food', 'Nigerian chain', 'Drive-through'],
     address: 'Ajose Adeogun Street, Victoria Island',
     phone: '+234 805 111 2222',
@@ -60,7 +60,7 @@ const nearbyRestaurants = [
     cuisine: 'Contemporary Nigerian',
     area: 'Victoria Island',
     priceRange: '₦₦₦',
-    image: '/restaurants/terra-kulture.jpg',
+    image: '/restaurants/suya-spot.jpg',
     highlights: ['Cultural dining', 'Art gallery', 'Unique experience'],
     address: '1376 Tiamiyu Savage Street, Victoria Island',
     phone: '+234 806 326 5555',
@@ -76,7 +76,7 @@ const nearbyRestaurants = [
     cuisine: 'Fast Food',
     area: 'Victoria Island',
     priceRange: '₦₦',
-    image: '/restaurants/chicken-republic.jpg',
+    image: '/restaurants/wheatbaker.jpg',
     highlights: ['Fried chicken', 'Popular chain', 'Quick meals'],
     address: 'Ozumba Mbadiwe Avenue, Victoria Island',
     phone: '+234 700 CHICKEN',
@@ -92,13 +92,45 @@ const nearbyRestaurants = [
     cuisine: 'Nigerian',
     area: 'Victoria Island',
     priceRange: '₦₦',
-    image: '/restaurants/mama-cass.jpg',
+    image: '/restaurants/yellow-chilli.jpg',
     highlights: ['Home-style cooking', 'Generous portions', 'Local favorite'],
     address: 'Ahmadu Bello Way, Victoria Island',
     phone: '+234 803 777 8888',
     website: null,
     isOpen: true,
     distance: '1.3 km',
+  },
+  {
+    id: 107,
+    name: 'KFC Victoria Island',
+    rating: 4.0,
+    reviewCount: 2450,
+    cuisine: 'Fast Food',
+    area: 'Victoria Island',
+    priceRange: '₦₦',
+    image: '/restaurants/mama-put.jpg',
+    highlights: ['Fried chicken', 'Quick service', 'Global chain'],
+    address: 'Adeola Odeku Street, Victoria Island',
+    phone: '+234 700 KFC CALL',
+    website: 'https://kfc.com.ng',
+    isOpen: true,
+    distance: '1.5 km',
+  },
+  {
+    id: 108,
+    name: 'Calabar Kitchen',
+    rating: 4.6,
+    reviewCount: 1234,
+    cuisine: 'Nigerian',
+    area: 'Victoria Island',
+    priceRange: '₦₦₦',
+    image: '/restaurants/placeholder-restaurant.jpg',
+    highlights: ['Seafood specialty', 'Pepper soup', 'Traditional recipes'],
+    address: 'Ligali Ayorinde Street, Victoria Island',
+    phone: '+234 809 555 7777',
+    website: null,
+    isOpen: false,
+    distance: '1.7 km',
   },
 ]
 
@@ -208,18 +240,18 @@ export default function NearbyRestaurants() {
   }, [])
 
   return (
-    <section className="py-8 md:py-12 lg:py-16 bg-gray-50">
+    <section className="py-8 md:py-12 lg:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-6 md:mb-8">
           <div className="flex items-center justify-center gap-2 mb-2">
             <span className="text-2xl">📍</span>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
-              Restaurants Near You
+              Restaurants Near Me
             </h2>
           </div>
-          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mb-6">
-            Discover great food options around you
+           <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+            From jollof rice to shawarma - discover the restaurants that make Lagos delicious!
           </p>
 
           {/* Navigation Arrows */}
@@ -252,9 +284,12 @@ export default function NearbyRestaurants() {
             className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide scroll-smooth"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {nearbyRestaurants.map((restaurant) => (
+            {nearbyRestaurants.map((restaurant, index) => (
               <div key={restaurant.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4">
-                <SimpleRestaurantCard restaurant={restaurant} />
+                <SimpleRestaurantCard 
+                  restaurant={restaurant} 
+                  isSponsored={index < 2} 
+                />
               </div>
             ))}
           </div>

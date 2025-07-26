@@ -12,11 +12,11 @@ export default function HomePage() {
     <div className="min-h-screen bg-white font-sans">
       <Header />
       <TasteLagosHero />
-      <FeaturedRestaurants />
+      {/* <FeaturedRestaurants /> */}
       <NearbyRestaurants />
-      <MeetCommunity />
+      {/* <MeetCommunity /> */}
       <CitySection />
-      <NewsletterSection />
+      {/* <NewsletterSection /> */}
       <TasteLagosFooter />
     </div>
   )

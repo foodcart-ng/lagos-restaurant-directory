@@ -10,7 +10,7 @@ const lagosAreas = [
     name: 'Victoria Island',
     slug: 'victoria-island',
     description: 'The business heart of Lagos with upscale dining and international cuisine',
-    image: 'https://picsum.photos/400/300?random=1',
+    image: '/areas/victoria-island.jpg',
     restaurantCount: 486,
     averageRating: 4.2,
     priceRange: '₦₦₦-₦₦₦₦',
@@ -29,7 +29,7 @@ const lagosAreas = [
     name: 'Lekki',
     slug: 'lekki',
     description: 'Modern residential area known for trendy cafes and diverse dining options',
-    image: 'https://picsum.photos/400/300?random=2',
+    image: '/areas/lekki.jpg',
     restaurantCount: 324,
     averageRating: 4.1,
     priceRange: '₦₦-₦₦₦',
@@ -48,7 +48,7 @@ const lagosAreas = [
     name: 'Ikoyi',
     slug: 'ikoyi',
     description: 'Prestigious neighborhood offering sophisticated dining experiences',
-    image: 'https://picsum.photos/400/300?random=3',
+    image: '/areas/ikoyi.jpg',
     restaurantCount: 198,
     averageRating: 4.4,
     priceRange: '₦₦₦-₦₦₦₦',
@@ -67,7 +67,7 @@ const lagosAreas = [
     name: 'Surulere',
     slug: 'surulere',
     description: 'Vibrant cultural hub with authentic local eateries and street food',
-    image: 'https://picsum.photos/400/300?random=4',
+    image: '/areas/surulere.jpg',
     restaurantCount: 287,
     averageRating: 4.0,
     priceRange: '₦-₦₦',
@@ -86,7 +86,7 @@ const lagosAreas = [
     name: 'Yaba',
     slug: 'yaba',
     description: 'Tech hub and student area with affordable eats and innovative dining',
-    image: 'https://picsum.photos/400/300?random=5',
+    image: '/areas/yaba.jpg',
     restaurantCount: 156,
     averageRating: 3.9,
     priceRange: '₦-₦₦',
@@ -105,7 +105,7 @@ const lagosAreas = [
     name: 'Ikeja',
     slug: 'ikeja',
     description: 'Commercial center with shopping malls and diverse restaurant chains',
-    image: 'https://picsum.photos/400/300?random=6',
+    image: '/areas/ikeja.jpg',
     restaurantCount: 298,
     averageRating: 4.0,
     priceRange: '₦₦-₦₦₦',
@@ -227,7 +227,7 @@ export default function CitySection() {
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="text-3xl">🏙️</span>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
-              Explore Lagos by Area
+              Explore Lagos Restaurants by neighborhoods
             </h2>
           </div>
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-6">
@@ -264,7 +264,7 @@ export default function CitySection() {
             </button>
             <button
               onClick={nextSlide}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-orange-600 hover:bg-orange-700 text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={currentIndex === totalSlides - 1}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -283,8 +283,9 @@ export default function CitySection() {
           >
             {lagosAreas.map((area) => (
               <div key={area.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4">
-                <div 
-                  className={`bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition-all duration-300 ${
+                <Link
+                  href={`/restaurants?area=${area.slug}`}
+                  className={`block bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition-all duration-300 ${
                     selectedArea === area.id ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-200'
                   }`}
                 >
@@ -314,16 +315,6 @@ export default function CitySection() {
                   <span className="inline-flex items-center px-2 py-1 bg-white/90 text-gray-800 text-xs font-bold rounded-full">
                     {area.restaurantCount} restaurants
                   </span>
-                  <span className="inline-flex items-center px-2 py-1 bg-white/90 text-gray-800 text-xs font-bold rounded-full">
-                    ⭐ {area.averageRating}
-                  </span>
-                </div>
-
-                {/* Price Range */}
-                <div className="absolute top-3 right-3">
-                  <span className="inline-block px-2 py-1 bg-green-600 text-white text-xs font-bold rounded-full">
-                    {area.priceRange}
-                  </span>
                 </div>
               </div>
 
@@ -331,44 +322,11 @@ export default function CitySection() {
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-xl font-bold text-gray-900">{area.name}</h3>
-                  <span className="text-sm text-gray-500">{area.averageDeliveryTime}</span>
                 </div>
                 
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                   {area.description}
                 </p>
-
-                {/* Highlights */}
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {area.highlights.slice(0, 2).map((highlight, index) => (
-                    <span
-                      key={index}
-                      className="inline-block px-2 py-1 bg-orange-50 text-orange-700 text-xs rounded-full border border-orange-200"
-                    >
-                      {highlight}
-                    </span>
-                  ))}
-                  {area.highlights.length > 2 && (
-                    <span className="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
-                      +{area.highlights.length - 2}
-                    </span>
-                  )}
-                </div>
-
-                {/* Featured Restaurant */}
-                <div className="bg-gray-50 rounded-lg p-3 mb-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Featured:</p>
-                      <p className="text-sm text-orange-600 font-medium">{area.featured.restaurantName}</p>
-                      <p className="text-xs text-gray-500">{area.featured.specialty}</p>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className="text-yellow-400 text-sm">⭐</span>
-                      <span className="text-sm font-medium">{area.featured.restaurantRating}</span>
-                    </div>
-                  </div>
-                </div>
 
                 {selectedArea === area.id && (
                   <div className="border-t border-gray-200 pt-4 mt-4">
@@ -396,16 +354,9 @@ export default function CitySection() {
                     </div>
                   </div>
                 )}
-
-                {/* Explore Button */}
-                <Link
-                  href={`/restaurants?area=${area.slug}`}
-                  className="block w-full px-4 py-2 bg-orange-600 text-white text-center font-medium rounded-lg hover:bg-orange-700 transition-colors duration-200"
-                >
-                  Explore {area.name}
-                </Link>
               </div>
-                </div>
+
+                </Link>
               </div>
             ))}
           </div>

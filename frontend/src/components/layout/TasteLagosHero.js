@@ -19,7 +19,7 @@ export default function TasteLagosHero() {
         { <img
           src="/femi-oyekoya-rbEtzd20Qcw-unsplash.jpg"
           alt="Delicious Nigerian jollof rice with grilled fish and suya"
-          className="h-full w-full object-cover object-center opacity-1000"
+          className="h-full w-full object-cover object-center opacity-90"
         /> }
         {/* Light green gradient overlay */}
         {/* <div className="absolute inset-0 bg-gradient-to-r from-green-500/30 to-green-300/20" /> */}
@@ -28,13 +28,9 @@ export default function TasteLagosHero() {
       {/* Hero Content */}
       <div className="relative max-w-5xl mx-auto text-center z-10">
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 leading-tight">
-          Discover Lagos<br />
-          <span className="text-green-600">on a Plate</span>
+          Find Lagos Restaurants nearby<br />
+           {/* <p className="text-base md:text-xl mb-8 md:mb-12 max-w-2xl mx-auto px-4">Discover Lagos on a plate</p> */}
         </h1>
-        <p className="text-base md:text-xl text-white mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-          Explore, rate, and share your favorite dining spots across Lagos. Find vegan, local, and international cuisine with ease.
-        </p>
-        
         {/* Search bar */}
         <form onSubmit={handleSearch} className="flex justify-center gap-0 max-w-2xl mx-auto mb-6 md:mb-8 shadow-lg rounded-lg overflow-hidden">
           <input 

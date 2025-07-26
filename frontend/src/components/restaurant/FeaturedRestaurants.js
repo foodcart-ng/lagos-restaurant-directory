@@ -277,27 +277,6 @@ export default function FeaturedRestaurants() {
           </Link>
         </div>
 
-        {/* Quick Stats Section - Mobile Optimized
-        <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-gray-200">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div className="p-3 md:p-4">
-              <div className="text-xl md:text-2xl font-bold text-orange-600">2,500+</div>
-              <div className="text-xs md:text-sm text-gray-600">Restaurants</div>
-            </div>
-            <div className="p-3 md:p-4">
-              <div className="text-xl md:text-2xl font-bold text-green-600">20+</div>
-              <div className="text-xs md:text-sm text-gray-600">Areas</div>
-            </div>
-            <div className="p-3 md:p-4">
-              <div className="text-xl md:text-2xl font-bold text-orange-600">50k+</div>
-              <div className="text-xs md:text-sm text-gray-600">Reviews</div>
-            </div>
-            <div className="p-3 md:p-4">
-              <div className="text-xl md:text-2xl font-bold text-green-600">95%</div>
-              <div className="text-xs md:text-sm text-gray-600">Satisfaction</div>
-            </div>
-          </div>
-        </div> */}
       </div>
     </section>
   )
